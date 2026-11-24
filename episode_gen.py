@@ -29,13 +29,28 @@ def pick_model():
     return "gemini-flash-latest"
 
 
+def _loads(t):
+    import json, re
+    try:
+        return json.loads(t)
+    except Exception:
+        pass
+    t2 = re.sub(r",\s*([}\]])", r"\1", t)
+    try:
+        return json.loads(t2)
+    except Exception:
+        pass
+    from json_repair import repair_json
+    return json.loads(repair_json(t))
+
+
 def ask(model, prompt, temp=1.0):
     body = {"contents": [{"parts": [{"text": prompt}]}],
             "generationConfig": {"responseMimeType": "application/json", "temperature": temp}}
     for i in range(4):
         r = requests.post(f"{API}/models/{model}:generateContent", params={"key": KEY}, json=body, timeout=180)
         if r.status_code == 200:
-            return json.loads(r.json()["candidates"][0]["content"]["parts"][0]["text"])
+            return _loads(r.json()["candidates"][0]["content"]["parts"][0]["text"])
         time.sleep(8 * (i + 1))
     raise RuntimeError(f"Gemini 호출 실패: {r.status_code} {r.text[:200]}")
 
