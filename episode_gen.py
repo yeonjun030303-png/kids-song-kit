@@ -9,6 +9,7 @@ KEY = os.environ.get("GEMINI_API_KEY", "")
 
 
 def pick_model():
+    return os.environ.get("TEXT_MODEL") or "gemini-3.5-flash-lite"
     if os.environ.get("TEXT_MODEL"):
         return os.environ["TEXT_MODEL"]
     try:

@@ -234,7 +234,11 @@ def main():
                     log("Gemini retry", _try + 1, str(e)[:120])
                     if _try == 5:
                         raise
-                    time.sleep(60 * (_try + 1))
+                    if "429" in str(e):
+                        __import__("os").environ["TEXT_MODEL"] = ["gemini-3.5-flash-lite", "gemini-3.1-flash-lite", "gemini-2.5-flash-lite"][(_try + 1) % 3]
+                        time.sleep(20)
+                    else:
+                        time.sleep(30 * (_try + 1))
         (OUT / "episode.json").write_text(json.dumps(ep, ensure_ascii=False, indent=2), encoding="utf-8")
         log("제목:", ep["title"])
 
