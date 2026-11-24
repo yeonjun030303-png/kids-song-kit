@@ -46,23 +46,42 @@ def _loads(t):
 
 def ask(model, prompt, temp=1.0):
     body = {"contents": [{"parts": [{"text": prompt}]}],
-            "generationConfig": {"responseMimeType": "application/json", "temperature": temp}}
+            "generationConfig": {"responseMimeType": "application/json", "temperature": temp, "maxOutputTokens": 8192}}
+    last = ""
     for i in range(4):
         r = requests.post(f"{API}/models/{model}:generateContent", params={"key": KEY}, json=body, timeout=180)
         if r.status_code == 200:
-            return _loads(r.json()["candidates"][0]["content"]["parts"][0]["text"])
+            try:
+                return _loads(r.json()["candidates"][0]["content"]["parts"][0]["text"])
+            except Exception as e:
+                last = f"응답 해석 실패: {e}"
+        else:
+            last = f"{r.status_code} {r.text[:200]}"
+            if r.status_code == 429:
+                break
         time.sleep(8 * (i + 1))
-    raise RuntimeError(f"Gemini 호출 실패: {r.status_code} {r.text[:200]}")
+    raise RuntimeError(f"Gemini 호출 실패: {last}")
 
 
 def bad_lines(ep):
     bad = []
+    if not isinstance(ep, dict) or not isinstance(ep.get("sections"), dict):
+        return ["sections 구조가 없음. 예시와 똑같은 JSON 구조로 전체를 다시 출력"]
+    for k in ("title", "yt_title", "desc_intro", "tags"):
+        if not ep.get(k):
+            bad.append(f"[{k}] 항목이 없음")
     for name in ("V1", "C", "V2", "V3"):
-        for ln in ep["sections"][name]["lines"]:
-            n = len(HANGUL.findall(ln))
+        sec = ep["sections"].get(name)
+        if not isinstance(sec, dict):
+            bad.append(f"[{name}] 구간이 없음. V1, C, V2, V3 모두 있어야 함")
+            continue
+        lines = sec.get("lines") or []
+        scenes = sec.get("scenes") or []
+        for ln in lines:
+            n = len(HANGUL.findall(str(ln)))
             if n != 8:
                 bad.append(f"[{name}] '{ln}' = {n}음절")
-        if len(ep["sections"][name]["lines"]) != 4 or len(ep["sections"][name]["scenes"]) != 4:
+        if len(lines) != 4 or len(scenes) != 4:
             bad.append(f"[{name}] lines/scenes는 각각 정확히 4개여야 함")
     return bad
 
@@ -99,12 +118,12 @@ def generate(history):
             continue
         chk = ask(model, '아래 어린이 영상 대본이 만 5세 이하에게 안전하고 무해한지 검수해줘. 문제 있으면 {"ok":false,"reason":"..."} 없으면 {"ok":true}.\n'
                   + json.dumps(ep, ensure_ascii=False), temp=0.2)
-        if chk.get("ok"):
+        if isinstance(chk, dict) and chk.get("ok"):
             ep["theme"] = theme
             ep["structure"] = ["V1", "C", "V2", "C", "V3", "C", "C"]
             ep["bpm"] = int(ep.get("bpm") or 116)
             return ep
-        feedback = f"\n\n안전 검수 탈락 사유: {chk.get('reason')}. 다른 내용으로 다시."
+        feedback = f"\n\n안전 검수 탈락 사유: {chk.get('reason') if isinstance(chk, dict) else chk}. 다른 내용으로 다시."
     raise RuntimeError("가사 생성 실패(8음절 규칙/안전 검수를 6번 통과 못함): " + "; ".join(bad_lines(ep)))
 
 
