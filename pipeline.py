@@ -225,7 +225,16 @@ def main():
             NOTES.append("※ 테스트 실행입니다(예시 가사, 짧은 곡).")
         else:
             import episode_gen
-            ep = episode_gen.generate(history)
+            ep = None
+            for _try in range(6):
+                try:
+                    ep = episode_gen.generate(history)
+                    break
+                except Exception as e:
+                    log("Gemini retry", _try + 1, str(e)[:120])
+                    if _try == 5:
+                        raise
+                    time.sleep(60 * (_try + 1))
         (OUT / "episode.json").write_text(json.dumps(ep, ensure_ascii=False, indent=2), encoding="utf-8")
         log("제목:", ep["title"])
 
