@@ -66,6 +66,9 @@ def ace_song(ep, dest):
         if item["status"] == 2:
             raise RuntimeError("ACE-Step 생성 실패")
         res = json.loads(item["result"])[0]
+        if not res.get("file"):
+            log("ACE 서버 로그 끝부분: " + open(OUT / "ace_server.log", errors="ignore").read()[-3000:])
+            raise RuntimeError("생성 결과에 파일 없음: " + json.dumps(res, ensure_ascii=False)[:600])
         audio = requests.get(BASE + res["file"], timeout=300)
         audio.raise_for_status()
         dest.write_bytes(audio.content)
@@ -208,6 +211,8 @@ def send_mail(subject, body, files=()):
 
 
 def main():
+    if not shutil.which("ffmpeg"):
+        subprocess.run("sudo apt-get update -y && sudo apt-get install -y ffmpeg", shell=True)
     if OUT.exists():
         shutil.rmtree(OUT)
     OUT.mkdir()
