@@ -1,0 +1,96 @@
+{
+  "title": "안녕 안녕 아침이야! 몽이와 콩이의 인사 동요",
+  "bpm": 108,
+  "seed": 11,
+  "structure": [
+    "V1",
+    "C",
+    "V2",
+    "C",
+    "V3",
+    "C",
+    "C"
+  ],
+  "sections": {
+    "V1": {
+      "lines": [
+        "몽이가 눈을 떴어요",
+        "콩이도 눈을 떴어요",
+        "안녕 안녕 아침이야",
+        "방긋방긋 웃어 봐요"
+      ],
+      "scenes": [
+        "Mong-i the bunny sits up in a cozy bed, big stretch and a sleepy yawn, warm morning sunlight through the window, tiny sparkles",
+        "Kong-i the bear cub wakes up in a leaf-pattern bed, rubs his eyes and then smiles, warm morning light",
+        "Both friends at a sunny window waving hello to the rising sun, little birds flying by, joyful",
+        "Close-up of both friends beaming big smiles side by side with a gentle bounce, flowers swaying behind them"
+      ],
+      "fx": [
+        "하드컷, 2번째 컷은 130% 줌인",
+        "하드컷",
+        "하드컷, 손 흔드는 순간 반짝임",
+        "하드컷"
+      ]
+    },
+    "C": {
+      "lines": [
+        "안녕 안녕 손 흔들어",
+        "짝짝짝 박수를 쳐요",
+        "콩콩콩콩콩 뛰어요",
+        "우리 모두 안녕 안녕"
+      ],
+      "scenes": [
+        "Both friends facing the camera, waving hands high and bouncing happily to the beat, sparkles in the air, bright meadow",
+        "Both friends clapping their hands in rhythm, small hearts popping around them, bouncy cheerful dance",
+        "Both friends jumping up and down in place like springs, confetti stars falling, big smiles",
+        "Both friends hug, then turn to the camera and wave, rainbow sparkles, joyful ending pose"
+      ],
+      "fx": [
+        "후렴 시작: 바운스 전환 + 반짝임",
+        "박수 순간마다 0.3초 줌인",
+        "점프 착지 순간 하드컷",
+        "마지막 컷: 하트 파티클 + 줌아웃"
+      ]
+    },
+    "V2": {
+      "lines": [
+        "몽이랑 콩이 만나요",
+        "안녕 안녕 반가워요",
+        "같이 같이 놀아 봐요",
+        "손잡고 빙글 돌아요"
+      ],
+      "scenes": [
+        "Bunny and bear cub run toward each other across a green meadow and meet in the middle with a happy hop",
+        "They wave both hands and give a cheerful little bow to each other, butterflies around them",
+        "They hold hands and swing their arms together, skipping along a flower path",
+        "They hold hands and spin in a circle, flower petals swirling, camera slowly orbiting around them"
+      ],
+      "fx": [
+        "하드컷, 만나는 순간 줌인",
+        "하드컷",
+        "하드컷",
+        "슬라이드 전환(빙글빙글 느낌)"
+      ]
+    },
+    "V3": {
+      "lines": [
+        "해님이 저물어 가요",
+        "안녕 안녕 내일 봐요",
+        "꿈나라 가기 전에도",
+        "내일 또 만나요 안녕"
+      ],
+      "scenes": [
+        "Gentle sunset over the meadow, the sun slowly setting in a pink and orange sky, the two friends sitting on a little hill",
+        "The friends wave goodbye on the hill in soft golden light, fireflies appear",
+        "The friends walk home yawning softly, tiny stars appearing in the sky, calm gentle walk",
+        "The friends wave goodnight from their cozy doorways under a starry sky, big smiles, a shooting star passes"
+      ],
+      "fx": [
+        "하드컷",
+        "하드컷, 반딧불 반짝임",
+        "하드컷",
+        "페이드(다음은 후렴 시작)"
+      ]
+    }
+  }
+}

@@ -1,0 +1,16 @@
+{
+  "channel_name": "몽실몽실 친구들",
+  "language": "ko",
+  "characters": [
+    {
+      "name": "몽이",
+      "look": "a round fluffy cream-colored baby bunny with big sparkly eyes, tiny pink cheeks, a small yellow scarf, soft pastel 3D animation style"
+    },
+    {
+      "name": "콩이",
+      "look": "a chubby little baby bear cub with light brown fur, a tiny green leaf hat, big friendly eyes, soft pastel 3D animation style"
+    }
+  ],
+  "style": "bright pastel colors, soft rounded shapes, cute 3D cartoon for toddlers, cozy sunny background, no text, no letters, 16:9",
+  "themes": ["친구와 나눔", "인사하기", "양치하기", "정리정돈", "동물 친구", "계절과 날씨", "과일과 채소", "숫자와 색깔", "잠자리 노래", "함께 놀기"]
+}
